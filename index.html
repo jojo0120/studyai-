@@ -351,9 +351,9 @@ STRICT RULES:
 Generate 12-15 flashcards and 12-15 quiz questions. "answer" is 0-based index.
 MATERIAL:\n${text.slice(0,3500)}`;
   try {
-    const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2500,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({prompt})});
     const data=await res.json();
-    const raw=data.content.map(c=>c.text||'').join('').trim();
+    const raw=(data.text||'').trim();
     const match=raw.match(/\{[\s\S]*\}/);
     if(!match)throw new Error('No JSON found');
     studyData=JSON.parse(match[0]);
